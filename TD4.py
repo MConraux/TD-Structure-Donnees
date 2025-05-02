@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 #Exercice 2
 Alpha = ["a","b","c","d","e","f","g","h","i","j","k","l","m","o","p","q","r","s","t","u","v","w","x","y","z"]
  
+#J'ai créé alpha au cas où j'en avais besoin pour faire mes tests mais je n'en ai finalement pas eu besoin 
 f = open("frenchssaccent.dic",'r')
 dico = []
 for ligne in f:
@@ -16,10 +17,12 @@ for ligne in f:
 f.close()
 
 def naive(key):
+    "Fonction faisant la somme des valeurs ODC pour chaque lettre du mot"
     return sum(ord(c) for c in key)
 
 
 class Hashtable:
+    "But: recréer une table de hachage (sorte de dictionnaire)"
     def __init__(self, hash_function=None, size=10):
         self.size = size
         self.table = [[] for _ in range(size)]
@@ -29,6 +32,7 @@ class Hashtable:
         return self.size
 
     def put(self, key, value):
+        "Permet d'ajouter une clé et une valeur dans notre table de hachage celle-ci change automatiquement sa taille à partir d'un certain nombre de valeur codée au même index"
         index = self.hash_function(key) % self.size
         
         if len(self.table[index])+1>1.2 * self.size:
@@ -42,6 +46,7 @@ class Hashtable:
         self.table[index].append([key, value])
 
     def get(self, key):
+        "Renvoie la valeur associée à une clé"
         index = self.hash_function(key) % self.size
         for pair in self.table[index]:
             if pair[0] == key:
@@ -49,7 +54,7 @@ class Hashtable:
         return None
     
     def repartition(self):
-        
+        "Permets de créer un graphique permettant de montrer le nombre de clé associée à un index précis"
         y = [len(self.table[i]) for i in range(self.size)]
         N = len(y)
         x = range(N)
@@ -58,7 +63,7 @@ class Hashtable:
         plt.show()
     
     def resize (self):        
-       
+        "Double la taille du tableau puis réindexe tous ses éléments"
         old_table = self.table
         self.size *= 2
         self.table = [[] for _ in range(self.size)]
